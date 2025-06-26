@@ -1,28 +1,63 @@
-# Dockerfile References: https://docs.docker.com/engine/reference/builder/
+# # Dockerfile References: https://docs.docker.com/engine/reference/builder/
 
-# Start from the latest golang base image
-FROM golang:latest
+# # Start from the latest golang base image
+# FROM golang:latest
 
-# Add Maintainer Info
-LABEL maintainer="Rajeev Singh <rajeevhub@gmail.com>"
+# # Add Maintainer Info
+# LABEL maintainer="Rajeev Singh <rajeevhub@gmail.com>"
 
-# Set the Current Working Directory inside the container
+# # Set the Current Working Directory inside the container
+# WORKDIR /app
+
+# # Copy go mod and sum files
+# COPY go.mod go.sum ./
+
+# # Download all dependencies. Dependencies will be cached if the go.mod and go.sum files are not changed
+# RUN go mod download
+
+# # Copy the source from the current directory to the Working Directory inside the container
+# COPY . .
+
+# # Build the Go app
+# RUN go build -o main .
+
+# # Expose port 8080 to the outside world
+# EXPOSE 8080
+
+# # Command to run the executable
+# CMD ["./main"]
+
+
+
+# STAGE 1: Build the Go binary
+
+FROM golang:1.22 AS builder
+
 WORKDIR /app
 
-# Copy go mod and sum files
+# Copy go.mod and go.sum first (for caching)
 COPY go.mod go.sum ./
-
-# Download all dependencies. Dependencies will be cached if the go.mod and go.sum files are not changed
 RUN go mod download
 
-# Copy the source from the current directory to the Working Directory inside the container
+# Copy the entire source code
 COPY . .
 
-# Build the Go app
+# Build the Go app binary
 RUN go build -o main .
 
-# Expose port 8080 to the outside world
+
+# STAGE 2: Run the binary in minimal image
+
+FROM debian:bookworm-slim
+
+# Set working directory in the smaller image
+WORKDIR /app
+
+# Copy only the binary from the builder stage
+COPY --from=builder /app/main .
+
+# Expose the port (used in flag default or overridden)
 EXPOSE 8080
 
-# Command to run the executable
+# Run the binary
 CMD ["./main"]
