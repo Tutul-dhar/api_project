@@ -1,13 +1,13 @@
 package main
 
 import (
-	"book-server/api"
-	"book-server/api/handler"
-	myMiddleware "book-server/api/middleware"
-	"book-server/infrastructure/persistence/inmemory"
-	"book-server/service"
+	//"github.com/tutul/book-server/api"
 	"flag"
 	"fmt"
+	"github.com/tutul/book-server/api/handler"
+	myMiddleware "github.com/tutul/book-server/api/middleware"
+	"github.com/tutul/book-server/infrastructure/persistence/inmemory"
+	"github.com/tutul/book-server/service"
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
@@ -29,8 +29,7 @@ func main() {
 	r := chi.NewRouter()
 	r.Use(chiMiddleware.Logger)
 
-	api.RegisterRoutes(r, bookHandler, myMiddleware.TokenAuth, enableAuth)
-
+	handler.RegisterRoutes(r, bookHandler, myMiddleware.TokenAuth, enableAuth)
 
 	fmt.Println("Server started on port", port)
 	http.ListenAndServe(":"+port, r)

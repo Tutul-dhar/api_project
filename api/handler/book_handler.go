@@ -1,11 +1,11 @@
 package handler
 
 import (
-	"book-server/domain/entity"
-	"book-server/service"
 	"encoding/json"
-	"net/http"
 	"github.com/go-chi/chi/v5"
+	"github.com/tutul/book-server/domain/entity"
+	"github.com/tutul/book-server/service"
+	"net/http"
 )
 
 type BookHandler struct {

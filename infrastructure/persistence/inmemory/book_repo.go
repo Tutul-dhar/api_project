@@ -1,9 +1,9 @@
 package inmemory
 
 import (
-	"book-server/domain/entity"
-	"book-server/domain/repository"
 	"errors"
+	"github.com/tutul/book-server/domain/entity"
+	"github.com/tutul/book-server/domain/repository"
 )
 
 type bookRepo struct {

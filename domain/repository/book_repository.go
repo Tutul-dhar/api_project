@@ -1,6 +1,6 @@
 package repository
 
-import "book-server/domain/entity"
+import "github.com/tutul/book-server/domain/entity"
 
 type BookRepository interface {
 	Create(book entity.Book) (entity.Book, error)

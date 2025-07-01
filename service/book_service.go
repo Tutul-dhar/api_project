@@ -1,9 +1,9 @@
 package service
 
 import (
-	"book-server/domain/entity"
-	"book-server/domain/repository"
 	"github.com/google/uuid"
+	"github.com/tutul/book-server/domain/entity"
+	"github.com/tutul/book-server/domain/repository"
 )
 
 type BookService struct {
